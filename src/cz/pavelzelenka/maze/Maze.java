@@ -153,7 +153,6 @@ public class Maze {
     	} else {
     		// statistika
         	Statistics.targetDistance.set(target.getDistance());
-        	System.out.println(Statistics.targetDistance.get());
         	// vraceni cilove bunky
     		return target;
     	}
