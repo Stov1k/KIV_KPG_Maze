@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -63,9 +65,11 @@ public class WindowLayout {
 		hBox.setSpacing(10D);
 		Text steps = new Text(scount + Statistics.steps.get());
 		Text targetDistance = new Text(tardis + Statistics.targetDistance.get());
+		Pane pane = new Pane();
+		HBox.setHgrow(pane, Priority.ALWAYS);
 		Button easier = new Button("←");
 		Button harder = new Button("→");
-		hBox.getChildren().addAll(steps, targetDistance, easier, harder);
+		hBox.getChildren().addAll(steps, targetDistance, pane, easier, harder);
 	
 		easier.setOnAction(action -> {
 			if(drawing != null) {
