@@ -147,10 +147,14 @@ public class Maze {
         			target = cell;
         		}
         	}
-    	}
+    	}    	
     	if(target == null) {
     		throw new IllegalStateException("Target position does not exist.");
     	} else {
+    		// statistika
+        	Statistics.targetDistance.set(target.getDistance());
+        	System.out.println(Statistics.targetDistance.get());
+        	// vraceni cilove bunky
     		return target;
     	}
     }

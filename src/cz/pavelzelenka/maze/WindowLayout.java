@@ -1,10 +1,16 @@
 package cz.pavelzelenka.maze;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -20,7 +26,8 @@ public class WindowLayout {
 	/** Zakladni rozvrzeni okna */
 	private BorderPane borderPane;
 
-	
+	/** Kresba */
+	private Drawing drawing;
 	
 	/**
 	 * Konstruktor
@@ -37,7 +44,50 @@ public class WindowLayout {
 	public Parent get() {
 		borderPane = new BorderPane();
 		borderPane.setCenter(getCanvasPane());
+		borderPane.setBottom(getBottomPane());
 		return borderPane;
+	}
+	
+	/**
+	 * Vrati spodni panel
+	 * @return spodni panel
+	 */
+	public Parent getBottomPane() {
+		String scount = "Steps: ";
+		String tardis = "Target distance: ";
+		
+		HBox hBox = new HBox();
+		hBox.setPadding(new Insets(5D, 5D, 5D, 5D));
+		hBox.setMinHeight(40D);
+		hBox.setAlignment(Pos.CENTER);
+		hBox.setSpacing(10D);
+		Text steps = new Text(scount + Statistics.steps.get());
+		Text targetDistance = new Text(tardis + Statistics.targetDistance.get());
+		Button easier = new Button("←");
+		Button harder = new Button("→");
+		hBox.getChildren().addAll(steps, targetDistance, easier, harder);
+	
+		easier.setOnAction(action -> {
+			if(drawing != null) {
+				drawing.prevMaze();
+			}
+		});
+		
+		harder.setOnAction(action -> {
+			if(drawing != null) {
+				drawing.nextMaze();
+			}
+		});
+		
+		Statistics.steps.addListener((observable, oldValue, newValue) -> {
+			steps.setText(scount + newValue);
+		});
+		
+		Statistics.targetDistance.addListener((observable, oldValue, newValue) -> {
+			targetDistance.setText(tardis + newValue);
+		});
+		
+		return hBox;
 	}
 	
 	/**
@@ -45,18 +95,19 @@ public class WindowLayout {
 	 * @return panel kresby
 	 */
 	public Parent getCanvasPane() {
-		AnchorPane anchorPane = new AnchorPane();
-
-        Canvas canvas = new Canvas(borderPane.getWidth(), borderPane.getHeight());
+		BorderPane pane = new BorderPane();
+		
+        Canvas canvas = new Canvas(pane.getWidth(), pane.getHeight());
         
-        borderPane.widthProperty().addListener(event -> canvas.setWidth(borderPane.getWidth()));
-        borderPane.heightProperty().addListener(event -> canvas.setHeight(borderPane.getHeight()));
+        pane.widthProperty().addListener(event -> canvas.setWidth(pane.getWidth()));
+        pane.heightProperty().addListener(event -> canvas.setHeight(pane.getHeight()));
         
-        Drawing drawing = new Drawing(canvas);
+        drawing = new Drawing(canvas);
         drawing.draw();
         
-		anchorPane.getChildren().add(canvas);
-		return anchorPane;
+        pane.getChildren().add(canvas);
+        
+		return pane;
 	}
-	
+
 }

@@ -13,9 +13,9 @@ public class MainMaze extends Application {
 	/** Popisek okna aplikace */
 	public static final String WINDOW_TITLE = "Maze";
 	/** Minimalni sirka okna aplikace */
-	public static final double MIN_WINDOW_WIDTH = 600D;
+	public static final double MIN_WINDOW_WIDTH = 440D;
 	/** Minimalni vyska okna aplikace */
-	public static final double MIN_WINDOW_HEIGHT = 600D;
+	public static final double MIN_WINDOW_HEIGHT = 480D;
 	
 	public static Scene scene;
 	
@@ -42,6 +42,8 @@ public class MainMaze extends Application {
 		scene = new Scene(wl.get());
         primaryStage.setScene(scene);
         PlayerController.INSTANCE.setScene(scene);
+        primaryStage.setWidth(560D);
+        primaryStage.setHeight(620D);
         primaryStage.show();
 	}
 	

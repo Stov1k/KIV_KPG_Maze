@@ -3,6 +3,8 @@ package cz.pavelzelenka.maze;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -109,7 +111,10 @@ public class PlayerController {
         }
         /** Vykresleni zmen */
         if(positionChanged) {
+        	// vykresleni
         	drawing.move(player, position, player.getPosition());
+        	// statistika
+        	Statistics.steps.set(Statistics.steps.get() + 1);
         }
 	}
 	
@@ -130,6 +135,8 @@ public class PlayerController {
 			if(player != null && scene != null && drawing != null) {
 				addControls();
 				keysQueue.clear();
+				// statistika
+				Statistics.steps.set(0);
 			}
 		}
 	}
@@ -184,5 +191,5 @@ public class PlayerController {
 		this.drawing = drawing;
 		activation();
 	}
-	
+
 }

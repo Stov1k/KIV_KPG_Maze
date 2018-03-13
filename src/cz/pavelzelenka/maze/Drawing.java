@@ -73,21 +73,31 @@ public class Drawing {
 	 */
 	private void observeCanvasSize() {
 		activeCanvas.widthProperty().addListener(event -> {
-			clear();
-			draw();
+			redraw();
 		});
 		
 		activeCanvas.heightProperty().addListener(event -> {
-			clear();
-			draw();
+			redraw();
 		});
 	}
-		
+	
+	/**
+	 * Prekresli plochu
+	 */
+	public void redraw() {
+		clear();
+		draw();
+	}
+	
 	/**
 	 * Vycisti plochu
 	 */
 	public void clear() {
+		// smazani platna
 		g.clearRect(0, 0, activeCanvas.getWidth(), activeCanvas.getHeight());
+		// vychozi barva pozadi platna
+		g.setFill(Color.WHITE);
+		g.fillRect(0, 0, activeCanvas.getWidth(), activeCanvas.getHeight());
 	}
 	
 	/**
@@ -189,8 +199,7 @@ public class Drawing {
 					// Ukonceni animace
 					if(time >= steps) {
 						// Prekresli
-						clear();
-						draw();
+						redraw();
 						// Nastav cas zpet na nulu
 						time = 0;
 						// Ukoci animaci */
@@ -201,8 +210,7 @@ public class Drawing {
 				}
 			}.start();
 		} else {
-			clear();
-			draw();
+			redraw();
 			afterChangePositionAction();
 		}
 		
@@ -223,11 +231,27 @@ public class Drawing {
 	/**
 	 * Zmena bludiste
 	 */
-	private void nextMaze() {
-		maze = new Maze(maze.getRows()+1,maze.getColumns()+1);
+	public void prevMaze() {
+		if(maze.getRows() > 2 && maze.getColumns() > 2) {
+			maze = new Maze(maze.getRows()-1,maze.getColumns()-1);
+		} else {
+			maze = new Maze(maze.getRows(),maze.getColumns());
+		}
 		createPlayer();
-		clear();
-		draw();
+		redraw();
+	}
+	
+	/**
+	 * Zmena bludiste
+	 */
+	public void nextMaze() {
+		if(maze.getRows() < 100 && maze.getColumns() < 100) {
+			maze = new Maze(maze.getRows()+1,maze.getColumns()+1);
+		} else {
+			maze = new Maze(maze.getRows(),maze.getColumns());
+		}
+		createPlayer();
+		redraw();
 	}
 	
 	/**
