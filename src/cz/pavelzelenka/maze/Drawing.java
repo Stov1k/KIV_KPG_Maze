@@ -87,7 +87,7 @@ public class Drawing {
 	 * Vycisti plochu
 	 */
 	public void clear() {
-		g.clearRect(0, 0, activeCanvas.getWidth(), activeCanvas.getWidth());
+		g.clearRect(0, 0, activeCanvas.getWidth(), activeCanvas.getHeight());
 	}
 	
 	/**
